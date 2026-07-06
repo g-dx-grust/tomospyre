@@ -1,26 +1,366 @@
 @import "tailwindcss";
 
+@theme {
+  --color-void: #050607;
+  --color-coal: #0c0e12;
+  --color-heat-1: #ff6b35;
+  --color-heat-2: #ffb454;
+  --color-heat-3: #ffe8c2;
+  --color-signal: #4dd8ff;
+  --color-bone: #f4f2ed;
+  --color-ash: #8e9299;
+
+  --font-display: var(--font-space-grotesk), "Zen Kaku Gothic New", sans-serif;
+  --font-jp: var(--font-zen-kaku), "Zen Kaku Gothic New", sans-serif;
+  --font-body: var(--font-noto-sans), "Noto Sans JP", sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", monospace;
+
+  --ease-ignite: cubic-bezier(0.83, 0, 0.17, 1);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --heat-gradient: linear-gradient(
+    120deg,
+    var(--color-heat-1) 0%,
+    var(--color-heat-2) 55%,
+    var(--color-heat-3) 100%
+  );
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: auto;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-void);
+  color: var(--color-bone);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-heat-1);
+  color: var(--color-void);
+}
+
+/* ---------- signature utilities ---------- */
+
+.heat-text {
+  background: var(--heat-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.heat-bg {
+  background: var(--heat-gradient);
+}
+
+.heat-rule {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--color-heat-1),
+    var(--color-heat-2) 40%,
+    transparent 100%
+  );
+}
+
+.v-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.35em;
+}
+
+.outline-num {
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--color-bone) 16%, transparent);
+}
+
+.light-section .outline-num {
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--color-void) 18%, transparent);
+}
+
+/* grain overlay */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: 80;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  animation: grain-shift 1.2s steps(4) infinite;
+}
+
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-2%, 1%); }
+  50% { transform: translate(1%, -2%); }
+  75% { transform: translate(-1%, 2%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---------- marquee ---------- */
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* ---------- magnetic / liquid button ---------- */
+
+.btn-liquid {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.btn-liquid::before {
+  content: "";
+  position: absolute;
+  inset: -2% -10%;
+  z-index: -1;
+  background: var(--heat-gradient);
+  transform: translateY(103%);
+  border-radius: 50% 50% 0 0 / 40% 40% 0 0;
+  transition:
+    transform 0.55s var(--ease-ignite),
+    border-radius 0.55s var(--ease-ignite);
+}
+
+.btn-liquid:hover::before,
+.btn-liquid:focus-visible::before {
+  transform: translateY(0);
+  border-radius: 0;
+}
+
+.btn-liquid:hover,
+.btn-liquid:focus-visible {
+  color: var(--color-void);
+  border-color: transparent;
+}
+
+/* ---------- custom cursor ---------- */
+
+@media (pointer: fine) {
+  .cursor-dot,
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    pointer-events: none;
+    border-radius: 9999px;
+    will-change: transform;
+  }
+  .cursor-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-heat-2);
+  }
+  .cursor-ring {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--color-bone);
+    mix-blend-mode: difference;
+    display: grid;
+    place-items: center;
+    transition: width 0.3s var(--ease-ignite), height 0.3s var(--ease-ignite),
+      background-color 0.3s;
+  }
+  .cursor-ring[data-mode="view"] {
+    width: 88px;
+    height: 88px;
+    background: var(--color-bone);
+  }
+  .cursor-ring .cursor-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--color-void);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .cursor-ring[data-mode="view"] .cursor-label {
+    opacity: 1;
+  }
+}
+
+/* ---------- form ---------- */
+
+.field-wrap {
+  position: relative;
+}
+
+.field-wrap::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--heat-gradient);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease-ignite);
+}
+
+.field-wrap:focus-within::after {
+  transform: scaleX(1);
+}
+
+/* ---------- service CSS-3D visuals ---------- */
+
+.vis-stage {
+  perspective: 900px;
+}
+
+.vis-grid-plane {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--color-heat-2) 45%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-heat-2) 45%, transparent) 1px, transparent 1px);
+  background-size: 40px 40px;
+  transform: rotateX(58deg) rotateZ(-8deg);
+  animation: plane-drift 14s linear infinite;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 30%, transparent 75%);
+}
+
+@keyframes plane-drift {
+  to { background-position: 0 40px, 40px 0; }
+}
+
+.vis-frame {
+  position: absolute;
+  border: 1px solid color-mix(in srgb, var(--color-heat-2) 70%, transparent);
+  background: color-mix(in srgb, var(--color-heat-1) 8%, transparent);
+  animation: frame-float 7s ease-in-out infinite;
+}
+
+@keyframes frame-float {
+  0%, 100% { transform: translateY(0) rotateX(8deg) rotateY(-12deg); }
+  50% { transform: translateY(-18px) rotateX(-6deg) rotateY(10deg); }
+}
+
+.vis-clip {
+  position: absolute;
+  height: 14px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-heat-1), var(--color-heat-2));
+  animation: clip-flow 5s linear infinite;
+  opacity: 0.85;
+}
+
+@keyframes clip-flow {
+  from { transform: translateX(-140%); }
+  to { transform: translateX(340%); }
+}
+
+.vis-node {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: var(--color-heat-2);
+  box-shadow: 0 0 16px var(--color-heat-1);
+  animation: node-pulse 3s ease-in-out infinite;
+}
+
+@keyframes node-pulse {
+  0%, 100% { transform: scale(0.7); opacity: 0.5; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+.vis-bar {
+  position: absolute;
+  bottom: 0;
+  width: 14%;
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(180deg, var(--color-heat-3), var(--color-heat-1));
+  transform-origin: bottom;
+  animation: bar-rise 4.5s var(--ease-ignite) infinite;
+  opacity: 0.9;
+}
+
+@keyframes bar-rise {
+  0% { transform: scaleY(0.15); }
+  55% { transform: scaleY(1); }
+  80% { transform: scaleY(0.92); }
+  100% { transform: scaleY(0.15); }
+}
+
+/* ---------- recruit flip card ---------- */
+
+.flip-card {
+  perspective: 1200px;
+}
+
+.flip-inner {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.7s var(--ease-ignite);
+}
+
+.flip-card:hover .flip-inner,
+.flip-card:focus-within .flip-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-card:hover .flip-inner,
+  .flip-card:focus-within .flip-inner {
+    transform: none;
+  }
+}
+
+/* ---------- 404 embers ---------- */
+
+.ember {
+  position: absolute;
+  border-radius: 9999px;
+  background: var(--color-heat-2);
+  filter: blur(1px);
+  animation: ember-rise linear infinite;
+  opacity: 0;
+}
+
+@keyframes ember-rise {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  12% { opacity: 0.9; }
+  100% { transform: translateY(-70vh) translateX(6vw); opacity: 0; }
+}
+
+/* ---------- reduced motion: 完全に読める状態を保証 ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .marquee-track {
+    animation: none;
+  }
+  .grain::after {
+    animation: none;
+  }
 }
