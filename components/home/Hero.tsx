@@ -111,7 +111,7 @@ export default function Hero() {
         </h1>
 
         <p className="mt-6 max-w-xl text-sm leading-loose text-ash md:text-base">
-          {`${company.name}は、AIクリエイティブを主軸に人材支援・総合インフラの3本柱で、人と企業の可能性に火を灯す会社です。${brand.locationCopy}。`}
+          {`${company.name}は、AIクリエイティブを主軸に人材支援・総合インフラ・モバイル販売の4本柱で、人と企業の可能性に火を灯す会社です。${brand.locationCopy}。`}
         </p>
 
         <div className="mt-10 flex flex-wrap items-center gap-4">

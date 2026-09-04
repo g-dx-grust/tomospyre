@@ -30,7 +30,7 @@ export default function AboutPage() {
         label="ABOUT — 会社概要"
         titleEn="ABOUT US"
         titleJa="明日に火を灯す会社であること。"
-        lead="TOMOSPYREは、AIクリエイティブ事業を主軸に、人材支援事業・総合インフラ事業を展開する名古屋発の企業です。人と企業の可能性に火を灯すことを使命としています。"
+        lead="TOMOSPYREは、AIクリエイティブ事業を主軸に、人材支援事業・総合インフラ事業・モバイル販売事業を展開する名古屋発の企業です。人と企業の可能性に火を灯すことを使命としています。"
         vertical="明日に火を灯す"
       />
 

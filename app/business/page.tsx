@@ -11,7 +11,7 @@ import { services } from "@/lib/data/services";
 
 export const metadata: Metadata = {
   title: "事業内容",
-  description: `${company.name}の事業内容。AIクリエイティブ事業を主軸に、人材支援事業・総合インフラ事業の3本柱で企業の成長を支えます。`,
+  description: `${company.name}の事業内容。AIクリエイティブ事業を主軸に、人材支援事業・総合インフラ事業・モバイル販売事業の4本柱で企業の成長を支えます。`,
 };
 
 export default function BusinessPage() {
@@ -19,17 +19,19 @@ export default function BusinessPage() {
     <>
       <PageHero
         label="BUSINESS — 事業内容"
-        titleEn="3 PILLARS"
-        titleJa="企業の成長を支える、3つの事業。"
+        titleEn="4 PILLARS"
+        titleJa="企業の成長を支える、4つの事業。"
         lead={pillarsLead}
         vertical="作る・届ける・働くを前へ"
       />
 
-      {pillars.map((p, i) => (
+      {pillars.map((p, i) => {
+        const isLight = i % 2 === 1;
+        return (
         <section
           key={p.num}
           className={`relative overflow-hidden px-5 py-28 md:px-12 md:py-36 ${
-            i === 1 ? "light-section bg-bone text-void" : ""
+            isLight ? "light-section bg-bone text-void" : ""
           }`}
           aria-labelledby={`pillar-${p.num}`}
         >
@@ -50,7 +52,7 @@ export default function BusinessPage() {
             <div className="md:[direction:ltr]">
               <p
                 className={`font-mono text-[10px] tracking-[0.3em] ${
-                  i === 1 ? "text-heat-1" : "text-heat-2"
+                  isLight ? "text-heat-1" : "text-heat-2"
                 }`}
               >
                 PILLAR {p.num} — {p.nameEn}
@@ -63,7 +65,7 @@ export default function BusinessPage() {
               </h2>
               <p
                 className={`mt-5 font-jp text-base font-bold md:text-xl ${
-                  i === 1 ? "text-heat-1" : "heat-text"
+                  isLight ? "text-heat-1" : "heat-text"
                 }`}
               >
                 {p.heading}
@@ -72,7 +74,7 @@ export default function BusinessPage() {
             <Reveal className="md:[direction:ltr]">
               <p
                 className={`text-sm leading-loose md:text-base ${
-                  i === 1 ? "text-void/70" : "text-ash"
+                  isLight ? "text-void/70" : "text-ash"
                 }`}
               >
                 {p.body}
@@ -109,7 +111,8 @@ export default function BusinessPage() {
             </Reveal>
           </div>
         </section>
-      ))}
+        );
+      })}
 
       <Marquee />
       <ContactCTA />

@@ -28,7 +28,7 @@ export default function HomePage() {
     <>
       <Hero />
 
-      {/* 02 — 3つの事業ピラー */}
+      {/* 02 — 4つの事業ピラー */}
       <section
         className="relative px-5 py-32 md:px-12 md:py-40"
         aria-labelledby="pillars-heading"
@@ -48,7 +48,7 @@ export default function HomePage() {
           id="pillars-heading"
           className="mt-4 max-w-3xl font-jp text-3xl font-bold leading-snug md:text-5xl"
         >
-          <TextReveal by="lines">3本柱で、企業の成長を支える。</TextReveal>
+          <TextReveal by="lines">4本柱で、企業の成長を支える。</TextReveal>
         </h2>
         <Reveal className="mt-6 max-w-2xl">
           <p className="text-sm leading-loose text-ash md:text-base">

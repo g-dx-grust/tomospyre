@@ -60,6 +60,8 @@ export default function RecruitPage() {
               インセンティブあり・昇給あり・残業手当支給
               <br />
               経験・スキル・前職を考慮します
+              <br />
+              ※AIクリエイティブ5職種の条件です
             </p>
           </div>
           <div className="border-t-2 border-void pt-6">
@@ -74,6 +76,8 @@ export default function RecruitPage() {
               完全週休2日制（土日祝休み）
               <br />
               残業月平均5時間以内
+              <br />
+              ※AIクリエイティブ5職種の条件です
             </p>
           </div>
         </div>
@@ -152,8 +156,18 @@ export default function RecruitPage() {
             id="requirements-heading"
             className="mt-3 font-jp text-2xl font-bold md:text-4xl"
           >
-            募集要項（全職種共通）
+            募集要項（AIクリエイティブ5職種 共通）
           </h2>
+          <p className="mt-4 text-sm leading-relaxed text-ash">
+            モバイル販売スタッフは労働条件が異なります。詳細は
+            <Link
+              href="/recruit/mobile-sales-staff"
+              className="mx-1 underline underline-offset-4 transition-colors hover:text-heat-2"
+            >
+              モバイル販売スタッフの職種ページ
+            </Link>
+            をご確認ください。
+          </p>
           <div className="mt-12">
             <RequirementsTable />
           </div>

@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     default: `${company.name}｜${brand.mainCopy}`,
     template: "%s｜株式会社TOMOSPYRE",
   },
-  description: `${brand.mainCopy} 名古屋発、東京・大阪へ。AIクリエイティブ事業を主軸に、人材支援事業・総合インフラ事業の3本柱で企業の成長を支えます。`,
+  description: `${brand.mainCopy} 名古屋発、東京・大阪へ。AIクリエイティブ事業を主軸に、人材支援事業・総合インフラ事業・モバイル販売事業の4本柱で企業の成長を支えます。`,
   icons: { icon: [{ url: "/favicon.svg", type: "image/svg+xml" }] },
   openGraph: {
     type: "website",

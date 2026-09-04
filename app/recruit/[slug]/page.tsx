@@ -36,7 +36,7 @@ export default async function JobDetailPage({
   const job = getJob((await params).slug);
   if (!job) notFound();
 
-  const service = getService(job.serviceSlug);
+  const service = job.serviceSlug ? getService(job.serviceSlug) : undefined;
 
   return (
     <>
@@ -71,12 +71,12 @@ export default async function JobDetailPage({
               </span>
             </TextReveal>
             <span className="mt-4 block font-jp text-base font-bold text-heat-2 md:text-xl">
-              正社員採用・未経験歓迎
+              {job.employmentLead ?? "正社員採用・未経験歓迎"}
             </span>
           </h1>
           <Reveal delay={0.25}>
             <ul className="mt-8 flex flex-wrap gap-2.5">
-              {recruitCommon.badges.map((b) => (
+              {(job.badges ?? recruitCommon.badges).map((b) => (
                 <li
                   key={b}
                   className="rounded-full border border-heat-1/50 px-4 py-1.5 font-jp text-xs font-bold text-heat-3"
@@ -259,7 +259,7 @@ export default async function JobDetailPage({
             募集要項
           </h2>
           <div className="mt-10">
-            <RequirementsTable />
+            <RequirementsTable job={job} />
           </div>
           {service && (
             <Link
